@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true
+  },
+  "projects": {
+    "auth": {
+      "type": "library",
+      "root": "libs/auth",
+      "entryFile": "index",
+      "sourceRoot": "libs/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/auth/tsconfig.lib.json"
+      }
+    },
+    "cls": {
+      "type": "library",
+      "root": "libs/cls",
+      "entryFile": "index",
+      "sourceRoot": "libs/cls/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/cls/tsconfig.lib.json"
+      }
+    },
+    "cqs": {
+      "type": "library",
+      "root": "libs/cqs",
+      "entryFile": "index",
+      "sourceRoot": "libs/cqs/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/cqs/tsconfig.lib.json"
+      }
+    },
+    "ddd": {
+      "type": "library",
+      "root": "libs/ddd",
+      "entryFile": "index",
+      "sourceRoot": "libs/ddd/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/ddd/tsconfig.lib.json"
+      }
+    },
+    "drizzle-orm": {
+      "type": "library",
+      "root": "libs/drizzle-orm",
+      "entryFile": "index",
+      "sourceRoot": "libs/drizzle-orm/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/drizzle-orm/tsconfig.lib.json"
+      }
+    },
+    "otel": {
+      "type": "library",
+      "root": "libs/otel",
+      "entryFile": "index",
+      "sourceRoot": "libs/otel/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/otel/tsconfig.lib.json"
+      }
+    }
+  }
+}
