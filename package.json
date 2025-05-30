@@ -84,10 +84,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/auth(|/.*)$": "<rootDir>/libs/auth/src/$1",
       "^@app/cls(|/.*)$": "<rootDir>/libs/cls/src/$1",
       "^@app/cqs(|/.*)$": "<rootDir>/libs/cqs/src/$1",
-      "^@app/ddd(|/.*)$": "<rootDir>/libs/ddd/src/$1",
       "^@app/otel(|/.*)$": "<rootDir>/libs/otel/src/$1"
     }
   }

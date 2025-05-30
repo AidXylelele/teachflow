@@ -18,12 +18,6 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@app/auth": [
-        "libs/auth/src"
-      ],
-      "@app/auth/*": [
-        "libs/auth/src/*"
-      ],
       "@app/cls": [
         "libs/cls/src"
       ],
@@ -35,12 +29,6 @@
       ],
       "@app/cqs/*": [
         "libs/cqs/src/*"
-      ],
-      "@app/ddd": [
-        "libs/ddd/src"
-      ],
-      "@app/ddd/*": [
-        "libs/ddd/src/*"
       ],
       "@app/otel": [
         "libs/otel/src"
