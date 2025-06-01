@@ -5,13 +5,13 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
-import { ClsService } from './services/cls.service';
-import { CLS_SERVICE_KEY } from './cls.di-tokens';
+import { AsyncLocalStorageService } from './services/async-local-storage.service';
+import { CLS_SERVICE } from './cls.di-tokens';
 import { ClsMiddleware } from './middlewares/cls.middleware';
 
 @Module({
-  providers: [{ provide: CLS_SERVICE_KEY, useClass: ClsService }],
-  exports: [CLS_SERVICE_KEY],
+  providers: [{ provide: CLS_SERVICE, useClass: AsyncLocalStorageService }],
+  exports: [CLS_SERVICE],
 })
 export class ClsModule implements NestModule {
   public configure(consumer: MiddlewareConsumer): void {

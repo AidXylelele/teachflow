@@ -1,1 +1,1 @@
-export const AUTH_CONTEXT_KEY = Symbol('AUTH_CONTEXT');
+export const AUTH_CONTEXT = Symbol('AUTH_CONTEXT');

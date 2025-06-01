@@ -1,11 +1,96 @@
 import { EntitySchema } from '@mikro-orm/core';
+import { Uuid } from 'src/core/domain/uuid';
+import { Email } from 'src/modules/users/domain/value-objects/email';
+import { Name } from 'src/modules/users/domain/value-objects/name';
+import { Password } from 'src/modules/users/domain/value-objects/password';
+import { Role, UserRole } from 'src/modules/users/domain/value-objects/role';
+import { EmailType } from '../types/email.type';
+import { NameType } from '../types/name.type';
+import { PasswordType } from '../types/password.type';
+import { RoleType } from '../types/role.type';
 
-export interface User {
-  id: string;
-  email: string;
-  password: string;
-  name: string;
-  role: string;
+export interface IUserSchema {
+  id: Uuid;
+  email: Email;
+  name: Name;
+  password: Password;
+  role: Role;
+  version: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }
 
-export const userSchema = new EntitySchema<UserSchemaAttributes, User>();
+export const UserSchema = new EntitySchema<IUserSchema>({
+  name: 'User',
+  tableName: 'users',
+
+  properties: {
+    id: {
+      type: 'uuid',
+      primary: true,
+    },
+    email: {
+      type: EmailType,
+      unique: true,
+      length: 255,
+      columnType: 'varchar(255)',
+      name: 'email',
+    },
+    name: {
+      type: NameType,
+      length: 255,
+      columnType: 'varchar(255)',
+      name: 'name',
+    },
+    password: {
+      type: PasswordType,
+      length: 64,
+      columnType: 'varchar(64)',
+      name: 'password_hash',
+    },
+    role: {
+      enum: true,
+      items: (): typeof UserRole => UserRole,
+      type: RoleType,
+    },
+    version: {
+      type: 'number',
+      version: true,
+      default: 0,
+      name: 'version',
+    },
+    createdAt: {
+      type: 'Date',
+      onCreate: (): Date => new Date(),
+      defaultRaw: 'CURRENT_TIMESTAMP',
+      name: 'created_at',
+      columnType: 'timestamp with time zone',
+    },
+    updatedAt: {
+      type: 'Date',
+      onCreate: (): Date => new Date(),
+      onUpdate: (): Date => new Date(),
+      defaultRaw: 'CURRENT_TIMESTAMP',
+      name: 'updated_at',
+      columnType: 'timestamp with time zone',
+    },
+    deletedAt: {
+      type: 'Date',
+      nullable: true,
+      name: 'deleted_at',
+      columnType: 'timestamp with time zone',
+      default: null,
+    },
+  },
+
+  indexes: [{ properties: 'email', name: 'idx_users_email_unique' }],
+
+  filters: {
+    softDelete: {
+      cond: { deletedAt: null },
+      default: true,
+      name: 'soft_delete',
+    },
+  },
+});

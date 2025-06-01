@@ -1,1 +1,1 @@
-export const CLS_SERVICE_KEY = Symbol('CLS_SERVICE_KEY');
+export const CLS_SERVICE = Symbol('CLS_SERVICE_KEY');

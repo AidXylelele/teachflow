@@ -7,7 +7,7 @@ import { Module } from '@nestjs/common';
   imports: [
     ClsModule.forRoot(),
     CqsModule.forRoot(),
-    MikroOrmModule.forRootAsync(),
+    MikroOrmModule.forFeature(),
   ],
 })
 export class AppModule {}

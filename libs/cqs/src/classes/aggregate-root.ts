@@ -15,7 +15,7 @@ export abstract class AggregateRoot<Id, Props> {
     return this.#id;
   }
 
-  public get props(): Props {
+  protected get props(): Props {
     return this.#props;
   }
 

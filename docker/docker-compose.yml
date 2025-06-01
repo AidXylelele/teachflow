@@ -1,0 +1,61 @@
+version: '3.8'
+
+name: coursify
+
+services:
+  iam:
+    image: jagregory/cognito-local:latest
+    container_name: iam
+    ports:
+      - '9229:9229'
+      - '9230:9230'
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION:-eu-local-1}
+      - LAMBDA_TRIGGER_PostConfirmation=http://application:${APP_SERVICE_PORT_INTERNAL:-3000}${APP_WEBHOOK_PATH:-/webhook/cognito/post-confirmation}
+    volumes:
+      - '${AWS_COGNITO_PERSIST_DIR:-./.cognito_data}:/app/.cognito'
+    networks:
+      - platform
+
+  postgres:
+    image: postgres:17.5
+    container_name: database
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-myuser}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-mypassword}
+      - POSTGRES_DB=${POSTGRES_DB:-mydatabase}
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - '${POSTGRES_DATA_DIR:-./.postgres_data}:/var/lib/postgresql/data'
+    networks:
+      - platform
+    restart: unless-stopped
+
+  # app:
+  #   build: .
+  #   container_name: application
+  #   ports:
+  #     - '${APP_HOST_PORT:-3000}:${APP_SERVICE_PORT_INTERNAL:-3000}'
+  #   depends_on:
+  #     - iam
+  #     - postgres
+  #   environment:
+  #     - APP_PORT=${APP_SERVICE_PORT_INTERNAL:-3000}
+  #     - AWS_COGNITO_ENDPOINT=http://identity_provider:${COGNITO_API_PORT:-9229}
+  #     - AWS_REGION=${AWS_LOCAL_REGION:-eu-local-1}
+  #     - AWS_ACCESS_KEY_ID=${AWS_LOCAL_ACCESS_KEY_ID}
+  #     - AWS_SECRET_ACCESS_KEY=${AWS_LOCAL_SECRET_ACCESS_KEY}
+  #     - DB_HOST=postgres
+  #     - DB_PORT=5432
+  #     - DB_USER=${POSTGRES_USER:-myuser}
+  #     - DB_PASSWORD=${POSTGRES_PASSWORD:-mypassword}
+  #     - DB_NAME=${POSTGRES_DB:-mydatabase}
+  #   networks:
+  #     - platform
+
+networks:
+  platform:
+    driver: bridge
