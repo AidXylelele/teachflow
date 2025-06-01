@@ -7,8 +7,6 @@ export class UserMapper implements DataMapper<User, IUserSchema> {
     const props = {
       email: data.email,
       name: data.name,
-      password: data.password,
-      role: data.role,
       version: data.version,
     };
 
@@ -20,8 +18,6 @@ export class UserMapper implements DataMapper<User, IUserSchema> {
       id: domain.id,
       name: domain.name,
       email: domain.email,
-      password: domain.password,
-      role: domain.role,
       version: domain.version,
     };
   }

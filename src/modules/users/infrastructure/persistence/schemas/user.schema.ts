@@ -2,19 +2,13 @@ import { EntitySchema } from '@mikro-orm/core';
 import { Uuid } from 'src/core/domain/uuid';
 import { Email } from 'src/modules/users/domain/value-objects/email';
 import { Name } from 'src/modules/users/domain/value-objects/name';
-import { Password } from 'src/modules/users/domain/value-objects/password';
-import { Role, UserRole } from 'src/modules/users/domain/value-objects/role';
 import { EmailType } from '../types/email.type';
 import { NameType } from '../types/name.type';
-import { PasswordType } from '../types/password.type';
-import { RoleType } from '../types/role.type';
 
 export interface IUserSchema {
   id: Uuid;
   email: Email;
   name: Name;
-  password: Password;
-  role: Role;
   version: number;
   createdAt?: Date;
   updatedAt?: Date;
@@ -42,17 +36,6 @@ export const UserSchema = new EntitySchema<IUserSchema>({
       length: 255,
       columnType: 'varchar(255)',
       name: 'name',
-    },
-    password: {
-      type: PasswordType,
-      length: 64,
-      columnType: 'varchar(64)',
-      name: 'password_hash',
-    },
-    role: {
-      enum: true,
-      items: (): typeof UserRole => UserRole,
-      type: RoleType,
     },
     version: {
       type: 'number',
