@@ -1,52 +1,32 @@
+import { DynamicModule, Module, OnApplicationBootstrap } from '@nestjs/common';
 import {
-  DynamicModule,
-  Inject,
-  Module,
-  OnApplicationBootstrap,
-} from '@nestjs/common';
-import {
-  COMMAND_DISPATCHER_KEY,
-  EVENTS_DISPATHCER_KEY,
-  EXPLORER_SERVICE_KEY,
-  QUERY_DISPATCHER_KEY,
+  COMMAND_DISPATCHER,
+  EVENTS_DISPATHCER,
+  QUERY_DISPATCHER,
 } from './cqs.di-tokens';
 import { ExplorerService } from './services/explorer.service';
 import { CommandDispatcher } from './dispatchers/command-dispatcher';
 import { QueryDispatcher } from './dispatchers/query-dispatcher';
 import { EventsDispatcher } from './dispatchers/events-dispatcher';
-import {
-  ICommandDispatcher,
-  IEventsDispatcher,
-  IExplorerService,
-  IQueryDispatcher,
-} from './interfaces';
 
 @Module({
   providers: [
-    {
-      provide: COMMAND_DISPATCHER_KEY,
-      useClass: CommandDispatcher,
-    },
-    { provide: QUERY_DISPATCHER_KEY, useClass: QueryDispatcher },
-    { provide: EVENTS_DISPATHCER_KEY, useClass: EventsDispatcher },
-    { provide: EXPLORER_SERVICE_KEY, useClass: ExplorerService },
+    { provide: COMMAND_DISPATCHER, useClass: CommandDispatcher },
+    { provide: QUERY_DISPATCHER, useClass: QueryDispatcher },
+    { provide: EVENTS_DISPATHCER, useClass: EventsDispatcher },
+    EventsDispatcher,
+    ExplorerService,
+    QueryDispatcher,
+    CommandDispatcher,
   ],
-  exports: [
-    COMMAND_DISPATCHER_KEY,
-    QUERY_DISPATCHER_KEY,
-    EVENTS_DISPATHCER_KEY,
-  ],
+  exports: [COMMAND_DISPATCHER, QUERY_DISPATCHER, EVENTS_DISPATHCER],
 })
 export class CqsModule implements OnApplicationBootstrap {
   public constructor(
-    @Inject(EXPLORER_SERVICE_KEY)
-    private readonly explorerService: IExplorerService,
-    @Inject(COMMAND_DISPATCHER_KEY)
-    private readonly commandDispatcher: ICommandDispatcher,
-    @Inject(QUERY_DISPATCHER_KEY)
-    private readonly queryDispatcher: IQueryDispatcher,
-    @Inject(EVENTS_DISPATHCER_KEY)
-    private readonly eventsDispatcher: IEventsDispatcher,
+    private readonly explorerService: ExplorerService,
+    private readonly commandDispatcher: CommandDispatcher,
+    private readonly queryDispatcher: QueryDispatcher,
+    private readonly eventsDispatcher: EventsDispatcher,
   ) {}
 
   public static forRoot(): DynamicModule {

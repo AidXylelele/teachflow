@@ -1,5 +1,15 @@
 import { registerAs } from '@nestjs/config';
 
+export interface DatabaseConfig {
+  client: string;
+  host: string;
+  port: number;
+  user: string;
+  password: string;
+  name: string;
+  synchronize: boolean;
+}
+
 export default registerAs(
   'mikro-orm',
   (): DatabaseConfig => ({

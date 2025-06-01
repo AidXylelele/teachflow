@@ -1,4 +1,4 @@
-import { DataMapper } from 'src/core/infrastructure/data-mapper';
+import { DataMapper } from 'src/core/infrastructure/data-mapper.interface';
 import { User } from 'src/modules/users/domain/entities/user';
 import { IUserSchema } from '../schemas/user.schema';
 

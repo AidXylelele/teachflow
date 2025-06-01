@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { ClsService } from '../interfaces/cls-service.interface';
 
 @Injectable()
-export class AsyncLocalStorageService implements ClsService {
+export class ClsService {
   readonly #als = new AsyncLocalStorage<Map<string | Symbol, unknown>>();
 
   public run(

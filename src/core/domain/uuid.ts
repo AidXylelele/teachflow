@@ -1,10 +1,8 @@
-import { isUUID } from 'class-validator';
-import { randomUUID, UUID } from 'node:crypto';
+import { randomUUID } from 'node:crypto';
 import { ValueObject } from 'src/core/domain/value-object';
-import { Error } from 'src/core/exceptions/validation-failed.exception';
 
-export class Uuid extends ValueObject<UUID> {
-  private constructor(value: UUID) {
+export class Uuid extends ValueObject<string> {
+  private constructor(value: string) {
     super(value);
   }
 
@@ -13,8 +11,11 @@ export class Uuid extends ValueObject<UUID> {
     return new Uuid(id);
   }
 
-  public static create(value: UUID): Uuid {
-    if (!isUUID(value)) {
+  public static create(value: string): Uuid {
+    const UUID_REGEX =
+      /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+
+    if (!UUID_REGEX.test(value)) {
       throw new Error('Must be a valid uuid');
     }
 

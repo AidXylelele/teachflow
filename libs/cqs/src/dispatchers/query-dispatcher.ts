@@ -2,21 +2,21 @@ import 'reflect-metadata';
 import { Injectable, Logger, LoggerService, Type } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { IQueryDispatcher, IQueryHandler } from '../interfaces';
 import { Query } from '../classes';
 import {
   QUERY_HANDLER_METADATA_KEY,
   QUERY_METADATA_KEY,
 } from '../consts/metadata-keys';
-import { QueryMetadata } from '../interfaces/query/query-metadata.interface';
+import { QueryMetadata } from '../interfaces/query-metadata.interface';
 import {
   InvalidQueryHandlerException,
   QueryDispatcherIsFrozenException,
   QueryHandlerNotFoundException,
 } from '../exceptions';
+import { IQueryHandler } from '../interfaces/query-handler.interface';
 
 @Injectable()
-export class QueryDispatcher implements IQueryDispatcher {
+export class QueryDispatcher {
   #isFrozen: boolean;
   readonly #logger: LoggerService;
   readonly #handlers: Map<string, <R>(query: Query<R>) => Promise<R>>;

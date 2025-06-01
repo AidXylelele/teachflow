@@ -1,6 +1,6 @@
 import { Inject, Injectable, NestMiddleware } from '@nestjs/common';
 import { CLS_SERVICE_KEY } from '../cls.di-tokens';
-import { IClsService } from '../interfaces/cls-service.interface';
+import { IClsService } from '../../../../src/core/infrastructure/cls-service.interface';
 import { NextFunction } from 'express';
 
 @Injectable()

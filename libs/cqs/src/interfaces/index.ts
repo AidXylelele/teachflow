@@ -5,4 +5,4 @@ export * from './event/events-handler.interface';
 export * from './query/query-dispatcher.interface';
 export * from './query/query-handler.interface';
 export * from './explorer/explorer-service.interface';
-export * from './explorer/providers-introspection-result.interface';
+export * from './providers-introspection-result.interface';

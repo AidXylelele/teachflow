@@ -3,15 +3,12 @@ import {
   Catch,
   ArgumentsHost,
   HttpStatus,
-  Logger,
 } from '@nestjs/common';
 import { OptimisticLockError, NotFoundError } from '@mikro-orm/core';
 import { Response } from 'express';
 
 @Catch(OptimisticLockError, NotFoundError)
 export class MikroOrmExceptionFilter implements ExceptionFilter {
-  private readonly logger = new Logger(MikroOrmExceptionFilter.name);
-
   public catch(
     exception: OptimisticLockError | NotFoundError,
     host: ArgumentsHost,

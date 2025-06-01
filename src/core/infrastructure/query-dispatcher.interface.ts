@@ -1,6 +1,6 @@
+import { Query } from '@app/cqs';
+import { IQueryHandler } from '@app/cqs/interfaces/query-handler.interface';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { Query } from '../../classes/query';
-import { IQueryHandler } from './query-handler.interface';
 
 export interface IQueryDispatcher {
   register(handlers?: Array<InstanceWrapper<IQueryHandler>>): void;

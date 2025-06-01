@@ -10,7 +10,7 @@ import {
 } from '../consts/metadata-keys';
 import { IQueryHandler } from '../interfaces/query/query-handler.interface';
 import { IEventsHandler } from '../interfaces/event/events-handler.interface';
-import { ProvidersIntrospectionResult } from '../interfaces/explorer/providers-introspection-result.interface';
+import { ProvidersIntrospectionResult } from '../interfaces/providers-introspection-result.interface';
 import { IExplorerService } from '../interfaces/explorer/explorer-service.interface';
 
 @Injectable()

@@ -1,21 +1,22 @@
 import { Injectable, Logger, LoggerService, Type } from '@nestjs/common';
 import 'reflect-metadata';
-import { IEventsDispatcher, IEventsHandler } from '../interfaces';
+
 import { ModuleRef } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import {
   EVENT_METADATA_KEY,
   EVENTS_HANDLER_METADATA_KEY,
 } from '../consts/metadata-keys';
-import { EventMetadata } from '../interfaces/event/event-metadata.interface';
+import { EventMetadata } from '../interfaces/event-metadata.interface';
 import {
   EventsDispatcherIsFrozenException,
   EventsHandlerNotFoundException,
   InvalidEventsHandlerException,
 } from '../exceptions';
+import { IEventsHandler } from '../interfaces/events-handler.interface';
 
 @Injectable()
-export class EventsDispatcher implements IEventsDispatcher {
+export class EventsDispatcher {
   #isFrozen: boolean;
   readonly #logger: LoggerService;
   readonly #handlers: Map<string, (event: Event) => unknown>;

@@ -3,20 +3,20 @@ import { Injectable, Logger, LoggerService, Type } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { Command } from '../classes';
-import { ICommandDispatcher, ICommandHandler } from '../interfaces';
 import {
   COMMAND_HANDLER_METADATA_KEY,
   COMMAND_METADATA_KEY,
 } from '../consts/metadata-keys';
-import { CommandMetadata } from '../interfaces/command/command-metadata.interface';
+import { CommandMetadata } from '../interfaces/command-metadata.interface';
 import {
   CommandDispatcherIsFrozenException,
   CommandHandlerNotFoundException,
   InvalidCommandHandlerException,
 } from '../exceptions';
+import { ICommandHandler } from '../interfaces/command-handler.interface';
 
 @Injectable()
-export class CommandDispatcher implements ICommandDispatcher {
+export class CommandDispatcher {
   #isFrozen: boolean;
   readonly #logger: LoggerService;
   readonly #handlers: Map<string, <R>(command: Command<R>) => Promise<R>>;

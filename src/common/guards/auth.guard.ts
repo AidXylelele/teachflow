@@ -1,4 +1,4 @@
-import { CLS_SERVICE, ClsService } from '@app/cls';
+import { CLS_SERVICE } from '@app/cls';
 import {
   CanActivate,
   ExecutionContext,
@@ -8,28 +8,35 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { AUTH_CONTEXT } from 'src/common/constants/cls-keys';
 import { IS_PUBLIC_KEY } from 'src/common/decorators/public.decorator';
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
 import { CognitoJwtVerifierSingleUserPool } from 'aws-jwt-verify/cognito-verifier';
 import awsCognitoConfig, {
   AwsCognitoConfig,
 } from 'src/configs/aws-cognito.config';
+import { IClsService } from 'src/core/infrastructure/cls-service.interface';
+import { AUTH_CONTEXT_KEY } from '../constants/casl';
+import { AbilityFactory } from 'src/core/infrastructure/user-ability-factory.interface';
+import { CASL_ABILITY_FACTORY } from 'libs/casl/casl.di-tokens';
+import { AuthContext } from 'src/core/application/auth-context.interface';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   readonly #reflector: Reflector;
-  readonly #clsService: ClsService;
-  readonly #jwtVerifier: CognitoJwtVerifierSingleUserPool<AwsCognitoConfig>;
+  readonly #clsService: IClsService;
+  readonly #abilityFactory: AbilityFactory;
+  readonly #jwtService: CognitoJwtVerifierSingleUserPool<AwsCognitoConfig>;
 
   public constructor(
     reflector: Reflector,
-    @Inject(CLS_SERVICE) clsService: ClsService,
+    @Inject(CASL_ABILITY_FACTORY) abilityFactory: AbilityFactory,
+    @Inject(CLS_SERVICE) clsService: IClsService,
     @Inject(awsCognitoConfig.KEY) config: AwsCognitoConfig,
   ) {
     this.#reflector = reflector;
     this.#clsService = clsService;
-    this.#jwtVerifier = CognitoJwtVerifier.create(config);
+    this.#abilityFactory = abilityFactory;
+    this.#jwtService = CognitoJwtVerifier.create(config);
   }
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -47,12 +54,19 @@ export class AuthGuard implements CanActivate {
 
     if (!token) throw new UnauthorizedException();
 
-    try {
-      const payload = await this.#jwtVerifier.verify(token);
-      this.#clsService.set(AUTH_CONTEXT, payload);
-    } catch {
+    const payload = await this.#jwtService.verify(token);
+    const groups = payload['cognito:groups'];
+
+    if (!groups || !groups.length || groups.length > 1) {
       throw new UnauthorizedException();
     }
+
+    const id = payload.sub;
+    const role = groups.toString();
+    const identity = { id, role };
+    const ability = this.#abilityFactory.createForUser(identity);
+    const authContext: AuthContext = { identity, ability };
+    this.#clsService.set(AUTH_CONTEXT_KEY, authContext);
 
     return true;
   }
