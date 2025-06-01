@@ -1,11 +1,10 @@
 import { CaslRoles } from 'libs/casl/interfaces';
-import { UserRole } from 'src/modules/users/domain/value-objects/role';
 
-const roles: CaslRoles<UserRole> = {
-  [UserRole.ADMIN]: [],
-  [UserRole.STUDENT]: [],
-  [UserRole.MENTOR]: [],
-  [UserRole.PUBLISHER]: [],
+const roles: CaslRoles = {
+  admin: [],
+  mentor: [],
+  student: [],
+  publisher: [],
 };
 
 export default { roles };
