@@ -29,9 +29,6 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.2.0",
-    "@opentelemetry/instrumentation": "^0.200.0",
-    "@opentelemetry/instrumentation-nestjs-core": "^0.46.0",
-    "@opentelemetry/sdk-trace-node": "^2.0.0",
     "@types/mustache": "^4.2.6",
     "aws-jwt-verify": "^5.1.0",
     "class-validator": "^0.14.2",
@@ -89,8 +86,7 @@
     ],
     "moduleNameMapper": {
       "^@app/cls(|/.*)$": "<rootDir>/libs/cls/src/$1",
-      "^@app/cqs(|/.*)$": "<rootDir>/libs/cqs/src/$1",
-      "^@app/otel(|/.*)$": "<rootDir>/libs/otel/src/$1"
+      "^@app/cqs(|/.*)$": "<rootDir>/libs/cqs/src/$1"
     }
   }
 }

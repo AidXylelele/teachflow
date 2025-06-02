@@ -10,8 +10,6 @@
     "@app/cls": "<rootDir>/../libs/cls/src",
     "@app/cls/(.*)": "<rootDir>/../libs/cls/src/$1",
     "@app/cqs": "<rootDir>/../libs/cqs/src",
-    "@app/cqs/(.*)": "<rootDir>/../libs/cqs/src/$1",
-    "@app/otel": "<rootDir>/../libs/otel/src",
-    "@app/otel/(.*)": "<rootDir>/../libs/otel/src/$1"
+    "@app/cqs/(.*)": "<rootDir>/../libs/cqs/src/$1"
   }
 }

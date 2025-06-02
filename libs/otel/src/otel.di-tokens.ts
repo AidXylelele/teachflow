@@ -1,2 +1,0 @@
-export const OTEL_MODULE_OPTIONS = Symbol('OPENTELEMETRY_MODULE_OPTIONS');
-export const OTEL_SDK = Symbol('OPENTELEMETRY_SDK');

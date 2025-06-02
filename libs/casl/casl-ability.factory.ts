@@ -25,3 +25,4 @@ export class CaslAbilityFactory {
     return createMongoAbility(permissions);
   }
 }
+

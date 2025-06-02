@@ -3,7 +3,7 @@ import { Uuid } from 'src/core/domain/uuid';
 import { Inject, Injectable } from '@nestjs/common';
 import { Email } from 'src/modules/users/domain/value-objects/email';
 import { User } from 'src/modules/users/domain/entities/user';
-import { UserMapper } from '../mappers/user-mapper';
+import { UserMapper } from '../mappers/user.mapper';
 import { USER_DAO } from 'src/modules/users/user.di-tokens';
 import { IUserDao } from 'src/modules/users/application/ports/user-dao.interface';
 

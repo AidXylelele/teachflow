@@ -21,9 +21,7 @@
       "@app/cls": ["libs/cls/src"],
       "@app/cls/*": ["libs/cls/src/*"],
       "@app/cqs": ["libs/cqs/src"],
-      "@app/cqs/*": ["libs/cqs/src/*"],
-      "@app/otel": ["libs/otel/src"],
-      "@app/otel/*": ["libs/otel/src/*"]
+      "@app/cqs/*": ["libs/cqs/src/*"]
     }
   }
 }

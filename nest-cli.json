@@ -34,15 +34,6 @@
       "compilerOptions": {
         "tsConfigPath": "libs/cqs/tsconfig.lib.json"
       }
-    },
-    "otel": {
-      "type": "library",
-      "root": "libs/otel",
-      "entryFile": "index",
-      "sourceRoot": "libs/otel/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/otel/tsconfig.lib.json"
-      }
     }
   }
 }
