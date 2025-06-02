@@ -1,11 +1,11 @@
 import { Uuid } from 'src/core/domain/uuid';
-import { User } from '../../domain/entities/user';
 import { Email } from '../../domain/value-objects/email';
+import { User } from '../../domain/entities/user';
 
 export interface UsersRepository {
-  findByEmail(email: Email): Promise<User>;
+  findByEmail(email: Email): Promise<User | null>;
 
-  findById(id: Uuid): Promise<User>;
+  findByIdOrFail(id: Uuid): Promise<User>;
 
   save(domain: User): Promise<void>;
 }

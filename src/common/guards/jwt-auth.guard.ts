@@ -21,18 +21,15 @@ import { Identity } from 'src/core/application/identity.interface';
 
 @Injectable()
 export class JWTAuthGuard implements CanActivate {
-  readonly #clsService: IClsService;
-  readonly #abilityFactory: AbilityFactory;
-  readonly #jwtService: CognitoJwtVerifierSingleUserPool<AwsJWTVerifyConfig>;
+  private readonly jwtService: CognitoJwtVerifierSingleUserPool<AwsJWTVerifyConfig>;
 
   public constructor(
-    @Inject(CASL_ABILITY_FACTORY) abilityFactory: AbilityFactory,
-    @Inject(CLS_SERVICE) clsService: IClsService,
+    @Inject(CASL_ABILITY_FACTORY)
+    private readonly abilityFactory: AbilityFactory,
+    @Inject(CLS_SERVICE) private readonly clsService: IClsService,
     @Inject(awsJwtVerifyConfig.KEY) config: AwsJWTVerifyConfig,
   ) {
-    this.#clsService = clsService;
-    this.#abilityFactory = abilityFactory;
-    this.#jwtService = CognitoJwtVerifier.create(config);
+    this.jwtService = CognitoJwtVerifier.create(config);
   }
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -41,7 +38,7 @@ export class JWTAuthGuard implements CanActivate {
 
     if (!token) throw new UnauthorizedException();
 
-    const payload = await this.#jwtService.verify(token);
+    const payload = await this.jwtService.verify(token);
     const groups = payload['cognito:groups'];
 
     if (!groups) throw new UnauthorizedException();
@@ -53,9 +50,9 @@ export class JWTAuthGuard implements CanActivate {
   }
 
   #setAuthContext(identity: Identity): void {
-    const ability = this.#abilityFactory.createForUser(identity);
+    const ability = this.abilityFactory.createForUser(identity);
     const authContext: AuthContext = { identity, ability };
-    this.#clsService.set(AUTH_CONTEXT_KEY, authContext);
+    this.clsService.set(AUTH_CONTEXT_KEY, authContext);
   }
 
   #extractTokenFromHeader(request: Request): string | undefined {

@@ -1,20 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
 import { ModulesContainer } from '@nestjs/core/injector/modules-container';
-
-import { ICommandHandler } from '../interfaces/command/command-handler.interface';
 import {
   COMMAND_HANDLER_METADATA_KEY,
   EVENTS_HANDLER_METADATA_KEY,
   QUERY_HANDLER_METADATA_KEY,
 } from '../consts/metadata-keys';
-import { IQueryHandler } from '../interfaces/query/query-handler.interface';
-import { IEventsHandler } from '../interfaces/event/events-handler.interface';
 import { ProvidersIntrospectionResult } from '../interfaces/providers-introspection-result.interface';
-import { IExplorerService } from '../interfaces/explorer/explorer-service.interface';
+import { IQueryHandler } from '../interfaces/query-handler.interface';
+import { IEventsHandler } from '../interfaces/events-handler.interface';
+import { ICommandHandler } from '../interfaces/command-handler.interface';
 
 @Injectable()
-export class ExplorerService implements IExplorerService {
+export class ExplorerService {
   public constructor(private readonly container: ModulesContainer) {}
 
   public explore(): ProvidersIntrospectionResult {

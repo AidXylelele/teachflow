@@ -4,6 +4,7 @@ import { Email } from '../value-objects/email';
 import { Name } from '../value-objects/name';
 
 interface CreateUserProps {
+  id: Uuid;
   email: Email;
   name: Name;
 }
@@ -31,22 +32,13 @@ export class User extends AggregateRoot<Uuid, UserProps> {
     return this.props.version;
   }
 
-  public changeName(value: string): void {
-    this.props.name = Name.create(value);
-  }
-
-  public changeEmail(value: string): void {
-    this.props.email = Email.create(value);
-  }
-
   public static create(input: CreateUserProps): User {
-    const id = Uuid.generate();
-
     const props = {
-      ...input,
+      email: input.email,
+      name: input.name,
       version: 0,
     };
 
-    return new User(id, props);
+    return new User(input.id, props);
   }
 }

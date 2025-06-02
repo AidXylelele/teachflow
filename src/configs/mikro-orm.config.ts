@@ -1,6 +1,6 @@
 import { registerAs } from '@nestjs/config';
 
-export interface DatabaseConfig {
+export interface MikroOrmConfig {
   client: string;
   host: string;
   port: number;
@@ -8,11 +8,12 @@ export interface DatabaseConfig {
   password: string;
   name: string;
   synchronize: boolean;
+  autoLoadEntities: boolean;
 }
 
 export default registerAs(
   'mikro-orm',
-  (): DatabaseConfig => ({
+  (): MikroOrmConfig => ({
     client: process.env.DATABASE_CLIENT!,
     host: process.env.DATABASE_HOST!,
     port: parseInt(process.env.DATABASE_PORT!),
@@ -20,5 +21,6 @@ export default registerAs(
     password: process.env.DATABASE_PASSWORD!,
     name: process.env.DATABASE_NAME!,
     synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
+    autoLoadEntities: true,
   }),
 );

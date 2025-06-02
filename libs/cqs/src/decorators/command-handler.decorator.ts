@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import type { Command } from '../classes/command';
 import {
   COMMAND_HANDLER_METADATA_KEY,
   COMMAND_METADATA_KEY,
@@ -19,7 +18,7 @@ import { randomUUID } from 'node:crypto';
  * @publicApi
  */
 export const CommandHandler = (
-  command: Command | (new (...args: unknown[]) => Command),
+  command: object | (new (...args: unknown[]) => object),
 ): ClassDecorator => {
   return (target: Function) => {
     if (!Reflect.hasOwnMetadata(COMMAND_METADATA_KEY, command)) {

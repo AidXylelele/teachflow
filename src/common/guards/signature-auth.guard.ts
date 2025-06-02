@@ -13,11 +13,9 @@ import webhooksConfig, { WebhooksConfig } from 'src/configs/webhooks.config';
 
 @Injectable()
 export class SignatureGuard implements CanActivate {
-  readonly #config: WebhooksConfig;
-
-  public constructor(@Inject(webhooksConfig.KEY) config: WebhooksConfig) {
-    this.#config = config;
-  }
+  public constructor(
+    @Inject(webhooksConfig.KEY) private readonly config: WebhooksConfig,
+  ) {}
 
   public canActivate(context: ExecutionContext): boolean {
     const request = context
@@ -39,7 +37,7 @@ export class SignatureGuard implements CanActivate {
     if (algorithm !== 'sha256') throw new UnauthorizedException();
 
     const expected = crypto
-      .createHmac(algorithm, this.#config.secret)
+      .createHmac(algorithm, this.config.secret)
       .update(request.rawBody)
       .digest('hex');
 

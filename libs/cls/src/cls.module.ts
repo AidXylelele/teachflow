@@ -10,7 +10,7 @@ import { CLS_SERVICE } from './cls.di-tokens';
 import { ClsMiddleware } from './middlewares/cls.middleware';
 
 @Module({
-  providers: [{ provide: CLS_SERVICE, useClass: ClsService }],
+  providers: [{ provide: CLS_SERVICE, useClass: ClsService }, ClsService],
   exports: [CLS_SERVICE],
 })
 export class ClsModule implements NestModule {
