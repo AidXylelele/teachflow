@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import { Query } from '../classes/query';
 import {
   QUERY_HANDLER_METADATA_KEY,
   QUERY_METADATA_KEY,
@@ -18,7 +17,7 @@ import { randomUUID } from 'node:crypto';
  *
  * @publicApi
  */
-export const QueryHandler = (query: Query): ClassDecorator => {
+export const QueryHandler = (query: object): ClassDecorator => {
   return (target: Function) => {
     if (!Reflect.hasOwnMetadata(QUERY_METADATA_KEY, query)) {
       const metadataValue = { id: randomUUID() };

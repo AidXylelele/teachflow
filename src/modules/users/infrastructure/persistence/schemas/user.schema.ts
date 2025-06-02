@@ -1,21 +1,16 @@
 import { EntitySchema } from '@mikro-orm/core';
-import { Uuid } from 'src/core/domain/uuid';
-import { Email } from 'src/modules/users/domain/value-objects/email';
-import { Name } from 'src/modules/users/domain/value-objects/name';
-import { EmailType } from '../types/email.type';
-import { NameType } from '../types/name.type';
 
-export interface IUserSchema {
-  id: Uuid;
-  email: Email;
-  name: Name;
+export interface UserModel {
+  id: string;
+  email: string;
+  name: string;
   version: number;
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
 }
 
-export const UserSchema = new EntitySchema<IUserSchema>({
+export const UserSchema = new EntitySchema<UserModel>({
   name: 'User',
   tableName: 'users',
 
@@ -25,14 +20,13 @@ export const UserSchema = new EntitySchema<IUserSchema>({
       primary: true,
     },
     email: {
-      type: EmailType,
+      type: 'varchar',
       unique: true,
       length: 255,
-      columnType: 'varchar(255)',
       name: 'email',
     },
     name: {
-      type: NameType,
+      type: 'varchar',
       length: 255,
       columnType: 'varchar(255)',
       name: 'name',
