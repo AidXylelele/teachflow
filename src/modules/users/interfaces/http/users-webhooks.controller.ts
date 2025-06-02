@@ -15,9 +15,12 @@ import { SignatureGuard } from 'src/common/guards/signature-auth.guard';
 import {
   ApiNoContentResponse,
   ApiOperation,
+  ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
+@ApiTags('Webhooks')
+@UseGuards(SignatureGuard)
 @Controller({ path: 'webhooks/users', version: '1' })
 export class UsersWebhooksController {
   public constructor(
@@ -25,14 +28,10 @@ export class UsersWebhooksController {
     private readonly commandDispatcher: ICommandDispatcher,
   ) {}
 
-  @Post()
-  @ApiOperation({
-    summary: 'Handles user created event',
-    description: 'Receives an event when a new user is created. ',
-  })
+  @Post('create')
+  @ApiOperation({ summary: 'Handles user created event' })
   @ApiNoContentResponse()
   @ApiUnauthorizedResponse()
-  @UseGuards(SignatureGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   public async handlerUserCreatedEvent(
     @Body() body: UserCreatedEventDto,
