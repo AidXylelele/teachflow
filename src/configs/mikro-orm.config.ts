@@ -1,26 +1,34 @@
+import { LoadStrategy } from '@mikro-orm/core';
+import { MikroOrmModuleOptions } from '@mikro-orm/nestjs';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { registerAs } from '@nestjs/config';
-
-export interface MikroOrmConfig {
-  client: string;
-  host: string;
-  port: number;
-  user: string;
-  password: string;
-  name: string;
-  synchronize: boolean;
-  autoLoadEntities: boolean;
-}
 
 export default registerAs(
   'mikro-orm',
-  (): MikroOrmConfig => ({
-    client: process.env.DATABASE_CLIENT!,
-    host: process.env.DATABASE_HOST!,
-    port: parseInt(process.env.DATABASE_PORT!),
-    user: process.env.DATABASE_USER!,
-    password: process.env.DATABASE_PASSWORD!,
-    name: process.env.DATABASE_NAME!,
-    synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
+  (): MikroOrmModuleOptions => ({
+    driver: PostgreSqlDriver,
+    host: process.env.DATABASE_HOST || 'localhost',
+    port: parseInt(process.env.DATABASE_PORT || '5432', 10),
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    dbName: process.env.DATABASE_NAME,
+    entities: ['dist/**/*.schema.js'],
+    entitiesTs: ['src/**/*.schema.ts'],
+    debug: process.env.MIKRO_ORM_DEBUG === 'true',
+    loadStrategy: LoadStrategy.JOINED,
     autoLoadEntities: true,
+    migrations: {
+      tableName: 'mikro_orm_migrations',
+      path: './dist/migrations',
+      pathTs: './database/migrations',
+      glob: '!(*.d).{js,ts}',
+      transactional: true,
+      disableForeignKeys: false,
+      allOrNothing: true,
+      dropTables: false,
+      safe: true,
+      emit: 'ts',
+    },
+    schema: process.env.DATABASE_SCHEMA || 'public',
   }),
 );
